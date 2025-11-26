@@ -1,7 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import { GeneratedDocument, Source } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Read the API key from a Vite-style env var
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY as string;
+
+if (!apiKey) {
+  console.error("❌ Missing VITE_GEMINI_API_KEY environment variable");
+}
+
+const ai = new GoogleGenAI({ apiKey });
+
 
 export const fetchDocumentDraft = async (prompt: string): Promise<GeneratedDocument> => {
   try {
